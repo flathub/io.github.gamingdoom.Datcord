@@ -119,7 +119,7 @@ modules:
     - type: git
       url: https://github.com/gamingdoom/datcord.git
       # This is the commit that works with flatpak, will be changed to tag when 0.4.2 comes out
-      commit: af33c65f64f137caae3120d2187cc2c7c1a8dac0
+      commit: 9c962b84f3673fe6c646c479a520d4abaf59f8d4
 
     # We extract this during the build.
     - type: file

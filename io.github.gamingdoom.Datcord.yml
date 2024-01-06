@@ -85,7 +85,7 @@ modules:
     # Add a buildscript to neutron that builds with --without-wasm-sandboxed-libraries
     - cp flatpakNeutronBuildScript.sh neutron/src/scripts/build/flatpak
 
-    - cd neutron && python config.py --config-file=../config.json
+    - cd neutron && python configurator.py --config-file=../config.json
 
     # Extract firefox source
     - cd neutron/build/ && mkdir mozilla-unified

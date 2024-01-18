@@ -1,0 +1,54 @@
+{
+    "name": "python3-cairosvg",
+    "buildsystem": "simple",
+    "build-commands": [
+        "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"cairosvg\" --no-build-isolation"
+    ],
+    "sources": [
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/01/a5/1866b42151f50453f1a0d28fc4c39f5be5f412a2e914f33449c42daafdf1/CairoSVG-2.7.1-py3-none-any.whl",
+            "sha256": "8a5222d4e6c3f86f1f7046b63246877a63b49923a1cd202184c3a634ef546b3b"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/17/be/a5d2c16317c6a890502725970589ae7f06cfc66b2e6916ba0a86973403c8/cairocffi-1.6.1-py3-none-any.whl",
+            "sha256": "aa78ee52b9069d7475eeac457389b6275aa92111895d78fbaa2202a52dac112e"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/68/ce/95b0bae7968c65473e1298efb042e10cafc7bafc14d9e4f154008241c91d/cffi-1.16.0.tar.gz",
+            "sha256": "bcb3ef43e58665bbda2fb198698fcae6776483e0c4a631aa5647806c25e02cc0"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/9d/3a/e39436efe51894243ff145a37c4f9a030839b97779ebcc4f13b3ba21c54e/cssselect2-0.7.0-py3-none-any.whl",
+            "sha256": "fd23a65bfd444595913f02fc71f6b286c29261e354c41d722ca7a261a49b5969"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/07/6c/aa3f2f849e01cb6a001cd8554a88d4c77c5c1a31c95bdf1cf9301e6d9ef4/defusedxml-0.7.1-py2.py3-none-any.whl",
+            "sha256": "a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/f8/3e/32cbd0129a28686621434cbf17bb64bf1458bfb838f1f668262fefce145c/pillow-10.2.0.tar.gz",
+            "sha256": "e87f0b2c78157e12d7686b27d63c070fd65d994e8ddae6f328e0dcf4a0cd007e"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/62/d5/5f610ebe421e85889f2e55e33b7f9a6795bd982198517d912eb1c76e1a53/pycparser-2.21-py2.py3-none-any.whl",
+            "sha256": "8ee45429555515e1f6b185e78100aea234072576aa43ab53aefcae078162fca9"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/da/99/fd23634d6962c2791fb8cb6ccae1f05dcbfc39bce36bba8b1c9a8d92eae8/tinycss2-1.2.1-py3-none-any.whl",
+            "sha256": "2b80a96d41e7c3914b8cda8bc7f705a4d9c49275616e886103dd839dfc847847"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/f4/24/2a3e3df732393fed8b3ebf2ec078f05546de641fe1b667ee316ec1dcf3b7/webencodings-0.5.1-py2.py3-none-any.whl",
+            "sha256": "a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78"
+        }
+    ]
+}

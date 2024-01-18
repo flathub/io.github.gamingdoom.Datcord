@@ -42,6 +42,9 @@ modules:
 - kerberos.json
 - libnotify.json
 - sound-theme-freedesktop.json
+# Python deps
+- python3-pillow.json
+- python3-cairosvg.json
 
 - name: cbindgen
   buildsystem: simple
@@ -84,6 +87,7 @@ modules:
 
     # Add a buildscript to neutron that builds with --without-wasm-sandboxed-libraries
     - cp flatpakNeutronBuildScript.sh neutron/src/scripts/build/flatpak
+    - chmod +x neutron/src/scripts/build/flatpak
 
     - cd neutron && python configurator.py --config-file=../config.json
 

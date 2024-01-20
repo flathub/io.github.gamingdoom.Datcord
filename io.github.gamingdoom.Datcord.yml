@@ -103,7 +103,7 @@ modules:
     - cp -r neutron/build/src/distribution/ neutron/build/datcord/
     - mv neutron/build/datcord/distribution/policies-flatpak.json neutron/build/datcord/distribution/policies.json
     - cp neutron/build/src/open-in-default-browser/open-in-default-browser neutron/build/datcord/open-in-default-browser
-    - cp neutron/build/src/launch-app neutron/build/datcord/launch-datcord
+    - cp neutron/build/src/launch-app.linux neutron/build/datcord/launch-datcord
 
     # Install everything
     - chmod +x neutron/build/datcord/launch-datcord

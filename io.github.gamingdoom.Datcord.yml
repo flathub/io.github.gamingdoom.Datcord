@@ -86,7 +86,7 @@ modules:
     - mozbuild=${PWD}/mozbuild
 
     # Add a buildscript to neutron that builds with --without-wasm-sandboxed-libraries
-    - cp flatpakNeutronBuildScript.sh neutron/src/scripts/build/flatpak
+    - cp flatpakNeutronBuildScript.sh neutron/src/scripts/build/linux
     - chmod +x neutron/src/scripts/build/flatpak
 
     - cd neutron && python configurator.py --config-file=../config.json

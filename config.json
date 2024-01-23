@@ -4,7 +4,7 @@
     "url": "https://discord.com/app",
     "logoSvgFilePath": "../../resources/datcord.svg",
     "platforms": [
-        "flatpak"
+        "linux"
     ],
     "extensionURLs": [
         "NEUTRON_OPEN_IN_DEFAULT_BROWSER_EXTENSION_LOCATION"

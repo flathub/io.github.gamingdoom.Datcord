@@ -122,7 +122,7 @@ modules:
   sources:
     - type: git
       url: https://github.com/gamingdoom/datcord.git
-      tag: "0.5.0"
+      tag: "0.5.1"
 
     # We extract this during the build.
     - type: file

@@ -4,7 +4,7 @@ runtime-version: '23.08'
 
 sdk: org.freedesktop.Sdk
 sdk-extensions: 
-  - org.freedesktop.Sdk.Extension.rust-nightly
+  - org.freedesktop.Sdk.Extension.rust-stable
   - org.freedesktop.Sdk.Extension.llvm16
   - org.freedesktop.Sdk.Extension.node18
 
@@ -49,12 +49,12 @@ modules:
 - name: cbindgen
   buildsystem: simple
   build-options:
-    append-path: "/usr/lib/sdk/rust-nightly/bin:/usr/lib/sdk/llvm16/bin"
+    append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm16/bin"
     env:
       - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER: "clang"
-      - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-nightly/bin/mold"
+      - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
       - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "clang"
-      - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-nightly/bin/mold"
+      - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
 
   build-commands:
     # Setting cargo home in env didn't work for some reason
@@ -73,12 +73,12 @@ modules:
 - name: datcord
   buildsystem: simple
   build-options:
-    append-path: "/usr/lib/sdk/rust-nightly/bin:/usr/lib/sdk/llvm16/bin:/usr/lib/sdk/node18/bin"
+    append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm16/bin:/usr/lib/sdk/node18/bin"
     env:
       - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER: "clang"
-      - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-nightly/bin/mold"
+      - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
       - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "clang"
-      - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-nightly/bin/mold"
+      - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
 
   build-commands:
     # Make temporary mozbuild dir
@@ -140,4 +140,3 @@ modules:
 
     - type: file
       path: flatpakNeutronBuildScript.sh
-

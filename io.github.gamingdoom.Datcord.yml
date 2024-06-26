@@ -93,7 +93,7 @@ modules:
 
     # Extract firefox source
     - cd neutron/build/ && mkdir mozilla-unified
-    - tar --strip-components=1 -xf firefox-115.9.1esr.source.tar.xz -C neutron/build/mozilla-unified
+    - tar --strip-components=1 -xf firefox-127.0.2.source.tar.xz -C neutron/build/mozilla-unified
 
     - cd neutron/build/ && python build.py
 

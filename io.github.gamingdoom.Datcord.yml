@@ -126,8 +126,8 @@ modules:
 
     # We extract this during the build.
     - type: file
-      url: https://ftp.mozilla.org/pub/firefox/releases/115.6.0esr/source/firefox-115.6.0esr.source.tar.xz
-      sha256: 66d7e6e5129ac8e6fe83e24227dc7bb8dc42650bc53b21838e614de80d22bc66
+      url: https://ftp.mozilla.org/pub/firefox/releases/115.9.1esr/source/firefox-115.9.1esr.source.tar.xz
+      sha256: 23657808bfefb8ba33a191645d4df776d5b8d99d453edde32b785d2a8846f929
 
     - type: file
       path: io.github.gamingdoom.Datcord.desktop

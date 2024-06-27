@@ -38,6 +38,7 @@ modules:
 - shared-modules/dbus-glib/dbus-glib.json
 - shared-modules/libcanberra/libcanberra.json
 - shared-modules/intltool/intltool-0.51.json
+- shared-modules/libappindicator/libappindicator-gtk3-12.10.json
 # These 3 are copied from Firefox Base App
 - kerberos.json
 - libnotify.json
@@ -93,7 +94,7 @@ modules:
 
     # Extract firefox source
     - cd neutron/build/ && mkdir mozilla-unified
-    - tar --strip-components=1 -xf firefox-115.6.0esr.source.tar.xz -C neutron/build/mozilla-unified
+    - tar --strip-components=1 -xf firefox-127.0.2.source.tar.xz -C neutron/build/mozilla-unified
 
     - cd neutron/build/ && python build.py
 
@@ -122,12 +123,12 @@ modules:
   sources:
     - type: git
       url: https://github.com/gamingdoom/datcord.git
-      tag: "0.5.1"
+      tag: "0.5.2"
 
     # We extract this during the build.
     - type: file
-      url: https://ftp.mozilla.org/pub/firefox/releases/115.6.0esr/source/firefox-115.6.0esr.source.tar.xz
-      sha256: 66d7e6e5129ac8e6fe83e24227dc7bb8dc42650bc53b21838e614de80d22bc66
+      url: https://ftp.mozilla.org/pub/firefox/releases/127.0.2/source/firefox-127.0.2.source.tar.xz
+      sha256: 0b7b2a8c3def52fcab13c48769645d0e963902ee916e4f3d2a0098796e73e3e8
 
     - type: file
       path: io.github.gamingdoom.Datcord.desktop

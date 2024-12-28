@@ -4,7 +4,6 @@ runtime-version: '23.08'
 
 sdk: org.freedesktop.Sdk
 sdk-extensions: 
-  - org.freedesktop.Sdk.Extension.rust-stable
   - org.freedesktop.Sdk.Extension.llvm16
   - org.freedesktop.Sdk.Extension.node18
 
@@ -32,7 +31,11 @@ finish-args:
     - --talk-name=org.a11y.Bus                                
     - --talk-name=org.gnome.SessionManager                    
     - --talk-name=org.freedesktop.ScreenSaver                 
-    - --talk-name=org.freedesktop.Notifications               
+    - --talk-name=org.freedesktop.Notifications
+
+build-options:
+  strip: false
+  no-debuginfo: true
 
 modules:
 - shared-modules/dbus-glib/dbus-glib.json
@@ -47,15 +50,53 @@ modules:
 - python3-pillow.json
 - python3-cairosvg.json
 
+- name: rust-nightly
+  buildsystem: simple
+  cleanup:
+    - '*'
+  build-commands:
+    - cd rust && ./install.sh --prefix=/app/lib/sdk/rust-stable --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
+    - cd rust-src && ./install.sh --prefix=/app/lib/sdk/rust-stable --disable-ldconfig --verbose
+    - cd mold && install -m 755 bin/mold /app/lib/sdk/rust-stable/bin/mold
+  sources:
+    - type: archive
+      only-arches:
+        - aarch64
+      dest: rust
+      url: https://static.rust-lang.org/dist/2024-06-13/rust-1.79.0-aarch64-unknown-linux-gnu.tar.xz
+      sha256: 8e7a2d514ee469325e5a7d0a2f0cad313aecb4c3da134f3bf84f7901a809d566
+    - type: archive
+      only-arches:
+        - x86_64
+      dest: rust
+      url: https://static.rust-lang.org/dist/2024-06-13/rust-1.79.0-x86_64-unknown-linux-gnu.tar.xz
+      sha256: ce552d6bf22a2544ea78647d98cb405d5089af58dbcaa4efea711bf8becd71c5
+    - type: archive
+      dest: rust-src
+      url: https://static.rust-lang.org/dist/2024-06-13/rust-src-1.79.0.tar.xz
+      sha256: 0775222dd26c1e11de198ec54bc0efddf70e5a7155946626b06ddbf4c8be8886
+    - type: archive
+      only-arches:
+        - x86_64
+      dest: mold
+      url: https://github.com/rui314/mold/releases/download/v2.32.0/mold-2.32.0-x86_64-linux.tar.gz
+      sha256: 2e69989cc1c0041ecfcb31fec57b2a5caa7802848d9468ffa5b1b348b26e4982
+    - type: archive
+      only-arches:
+        - aarch64
+      dest: mold
+      url: https://github.com/rui314/mold/releases/download/v2.32.0/mold-2.32.0-aarch64-linux.tar.gz
+      sha256: c75d17c1c530dee4b9ca811aaacca782a9fe8538ae8c68ce619f198a58e2b0e7
+
 - name: cbindgen
   buildsystem: simple
   build-options:
-    append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm16/bin"
+    append-path: "/app/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm16/bin"
     env:
       - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER: "clang"
-      - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
+      - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=/app/lib/sdk/rust-stable/bin/mold"
       - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "clang"
-      - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
+      - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "-C link-arg=-fuse-ld=/app/lib/sdk/rust-stable/bin/mold"
 
   build-commands:
     # Setting cargo home in env didn't work for some reason
@@ -74,12 +115,12 @@ modules:
 - name: datcord
   buildsystem: simple
   build-options:
-    append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm16/bin:/usr/lib/sdk/node18/bin"
+    append-path: "/app/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm16/bin:/usr/lib/sdk/node18/bin"
     env:
       - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER: "clang"
-      - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
+      - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=/app/lib/sdk/rust-stable/bin/mold"
       - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "clang"
-      - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
+      - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "-C link-arg=-fuse-ld=/app/lib/sdk/rust-stable/bin/mold"
 
   build-commands:
     # Make temporary mozbuild dir

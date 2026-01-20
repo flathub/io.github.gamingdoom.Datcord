@@ -82,6 +82,7 @@ modules:
     - chmod +x flatpak && cp flatpak neutron/src/scripts/build/linux
     - chmod +x launch-app-flatpak && cp launch-app-flatpak neutron/src/scripts/build/launch-app-linux
     - chmod +x package-flatpak && cp package-flatpak neutron/src/scripts/build/package-linux
+    - cp mozconfig neutron/src/mozconfig.linux
     
     # Configure
     - cd neutron && python configurator.py --config-file=../config.json
@@ -134,4 +135,7 @@ modules:
 
     - type: file
       path: package-flatpak
+
+    - type: file
+      path: mozconfig
 

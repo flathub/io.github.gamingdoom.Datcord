@@ -32,7 +32,7 @@ build-options:
 
 modules:
 - shared-modules/dbus-glib/dbus-glib.json
-- shared-modules/libcanberra/libcanberra.json
+- libcanberra/libcanberra.json
 - shared-modules/intltool/intltool-0.51.json
 - shared-modules/libappindicator/libappindicator-gtk3-12.10.json
 # These 3 are copied from Firefox Base App

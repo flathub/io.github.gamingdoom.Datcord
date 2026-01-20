@@ -19,7 +19,6 @@ finish-args:
     - --socket=fallback-x11                                                                           
     - --persist=.datcord                                      
     - --filesystem=xdg-download:rw                                   
-    - --filesystem=/tmp/open-in-default-browser                                       
     - --device=all                                            
     - --talk-name=org.freedesktop.FileManager1                
     - --talk-name=org.a11y.Bus                                
@@ -89,7 +88,7 @@ modules:
     
     # Prepare firefox source
     - cd neutron/build/ && mkdir mozilla-unified
-    - tar --strip-components=1 -xf firefox-146.0.source.tar.xz -C neutron/build/mozilla-unified
+    - tar --strip-components=1 -xf firefox-147.0.source.tar.xz -C neutron/build/mozilla-unified
 
     # Build
     - cd neutron/build/ && python build.py
@@ -111,12 +110,12 @@ modules:
   sources:
     - type: git
       url: https://github.com/gamingdoom/datcord.git
-      tag: "0.6.0"
+      commit: 771a825879f04ce739edef573d23f3b874a625e9
 
     # We extract this during the build.
     - type: file
-      url: https://ftp.mozilla.org/pub/firefox/releases/146.0/source/firefox-146.0.source.tar.xz
-      sha256: 08d4cae010abc31603ef74091a5d1f81da8e62d3b66c806690e70f03c422df16
+      url: https://ftp.mozilla.org/pub/firefox/releases/147.0/source/firefox-147.0.source.tar.xz
+      sha256: 222d8e63754f1e5b1789cb928d7f973e0168819c492bb0eb402b1d472e4fd9fe
 
     - type: file
       path: io.github.gamingdoom.Datcord.desktop

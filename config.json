@@ -4,13 +4,14 @@
     "url": "https://discord.com/app",
     "logoSvgFilePath": "../../resources/datcord.svg",
     "platforms": [
-	"launch-app-linux",
-        "flatpak"
+        "linux"
     ],
     "extensionURLs": [
         "NEUTRON_OPEN_IN_DEFAULT_BROWSER_EXTENSION_LOCATION"
     ],
-    "version": "0.5.2",
+    "version": "0.6.0",
+    "author": "gamingdoom",
+    "projectDescription": "An open-source Discord client using Firefox.",
     "projectURL": "https://github.com/gamingdoom/datcord",
     "projectHelpURL": "https://github.com/gamingdoom/datcord/issues",
     "openInDefaultBrowser": true,

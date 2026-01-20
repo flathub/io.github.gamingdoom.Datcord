@@ -4,7 +4,7 @@ rm -rf src/launch-app/build
 mkdir src/launch-app/build
 pushd src/launch-app/build
 	CC=clang CXX=clang++ cmake \
-		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_BUILD_TYPE=Debug \
 		.. \
 		-DAPPLICATION_NAME=\"NEUTRON_INTERNAL_APP_NAME\" \
 		-DSHOULD_OPEN_IN_DEFAULT_BROWSER=NEUTRON_OPEN_IN_DEFAULT_BROWSER \

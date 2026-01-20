@@ -102,7 +102,7 @@ modules:
 
     - ln -s /app/lib/datcord/launch-app /app/bin/datcord
 
-    - install -Dm 644 -t /app/share/applications io.github.gamingdoom.Datcord.desktop
+    - install -Dm 644 -t /app/share/applications/ io.github.gamingdoom.Datcord.desktop
     - install -Dm 644 -t /app/share/metainfo io.github.gamingdoom.Datcord.metainfo.xml
 
     # Use the icon from upstream (256 is the highest res)

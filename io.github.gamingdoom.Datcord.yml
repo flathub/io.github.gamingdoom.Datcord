@@ -1,20 +1,14 @@
 app-id: io.github.gamingdoom.Datcord
 runtime: org.freedesktop.Platform
-runtime-version: '23.08'
+runtime-version: '25.08'
 
 sdk: org.freedesktop.Sdk
 sdk-extensions: 
-  - org.freedesktop.Sdk.Extension.llvm16
-  - org.freedesktop.Sdk.Extension.node18
+  - org.freedesktop.Sdk.Extension.llvm20
+  - org.freedesktop.Sdk.Extension.node20
+  - org.freedesktop.Sdk.Extension.rust-stable
 
 command: datcord
-add-build-extensions:
-  org.freedesktop.Platform.ffmpeg-full:
-    directory: lib/ffmpeg
-    add-ld-path: .
-    version: '23.08'
-    autodownload: true
-    autodelete: false
 
 finish-args:
     - --share=ipc                                             
@@ -25,7 +19,6 @@ finish-args:
     - --socket=fallback-x11                                                                           
     - --persist=.datcord                                      
     - --filesystem=xdg-download:rw                                   
-    - --filesystem=/tmp/open-in-default-browser                                       
     - --device=all                                            
     - --talk-name=org.freedesktop.FileManager1                
     - --talk-name=org.a11y.Bus                                
@@ -39,7 +32,7 @@ build-options:
 
 modules:
 - shared-modules/dbus-glib/dbus-glib.json
-- shared-modules/libcanberra/libcanberra.json
+- libcanberra/libcanberra.json
 - shared-modules/intltool/intltool-0.51.json
 - shared-modules/libappindicator/libappindicator-gtk3-12.10.json
 # These 3 are copied from Firefox Base App
@@ -47,59 +40,21 @@ modules:
 - libnotify.json
 - sound-theme-freedesktop.json
 # Python deps
-- python3-pillow.json
-- python3-cairosvg.json
-
-- name: rust-nightly
-  buildsystem: simple
-  cleanup:
-    - '*'
-  build-commands:
-    - cd rust && ./install.sh --prefix=/app/lib/sdk/rust-stable --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
-    - cd rust-src && ./install.sh --prefix=/app/lib/sdk/rust-stable --disable-ldconfig --verbose
-    - cd mold && install -m 755 bin/mold /app/lib/sdk/rust-stable/bin/mold
-  sources:
-    - type: archive
-      only-arches:
-        - aarch64
-      dest: rust
-      url: https://static.rust-lang.org/dist/2024-06-13/rust-1.79.0-aarch64-unknown-linux-gnu.tar.xz
-      sha256: 8e7a2d514ee469325e5a7d0a2f0cad313aecb4c3da134f3bf84f7901a809d566
-    - type: archive
-      only-arches:
-        - x86_64
-      dest: rust
-      url: https://static.rust-lang.org/dist/2024-06-13/rust-1.79.0-x86_64-unknown-linux-gnu.tar.xz
-      sha256: ce552d6bf22a2544ea78647d98cb405d5089af58dbcaa4efea711bf8becd71c5
-    - type: archive
-      dest: rust-src
-      url: https://static.rust-lang.org/dist/2024-06-13/rust-src-1.79.0.tar.xz
-      sha256: 0775222dd26c1e11de198ec54bc0efddf70e5a7155946626b06ddbf4c8be8886
-    - type: archive
-      only-arches:
-        - x86_64
-      dest: mold
-      url: https://github.com/rui314/mold/releases/download/v2.32.0/mold-2.32.0-x86_64-linux.tar.gz
-      sha256: 2e69989cc1c0041ecfcb31fec57b2a5caa7802848d9468ffa5b1b348b26e4982
-    - type: archive
-      only-arches:
-        - aarch64
-      dest: mold
-      url: https://github.com/rui314/mold/releases/download/v2.32.0/mold-2.32.0-aarch64-linux.tar.gz
-      sha256: c75d17c1c530dee4b9ca811aaacca782a9fe8538ae8c68ce619f198a58e2b0e7
+- python3-modules.json
 
 - name: cbindgen
   buildsystem: simple
   build-options:
-    append-path: "/app/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm16/bin"
+    append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm20/bin"
     env:
       - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER: "clang"
-      - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=/app/lib/sdk/rust-stable/bin/mold"
+      - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
       - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "clang"
-      - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "-C link-arg=-fuse-ld=/app/lib/sdk/rust-stable/bin/mold"
+      - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
 
   build-commands:
     # Setting cargo home in env didn't work for some reason
+    - CARGO_HOME=${PWD}/cargo cargo update -p clap --precise 4.3.24
     - CARGO_HOME=${PWD}/cargo cargo --offline fetch --manifest-path Cargo.toml --verbose
     - CARGO_HOME=${PWD}/cargo cargo --offline build --release --verbose
     - install -Dm755 ./target/release/cbindgen -t /app/bin/
@@ -108,54 +63,46 @@ modules:
     # Cbindgen and dependencies
     - type: git
       url: https://github.com/mozilla/cbindgen.git
-      tag: "v0.26.0"
+      tag: "v0.29.2"
 
     - cbindgen-cargo-sources.json
   
 - name: datcord
   buildsystem: simple
   build-options:
-    append-path: "/app/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm16/bin:/usr/lib/sdk/node18/bin"
+    append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm20/bin:/usr/lib/sdk/node20/bin"
     env:
       - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER: "clang"
-      - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=/app/lib/sdk/rust-stable/bin/mold"
+      - CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
       - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "clang"
-      - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "-C link-arg=-fuse-ld=/app/lib/sdk/rust-stable/bin/mold"
+      - CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
 
   build-commands:
-    # Make temporary mozbuild dir
-    - mkdir mozbuild
-    - mozbuild=${PWD}/mozbuild
-
-    # Add a buildscript to neutron that builds with --without-wasm-sandboxed-libraries
-    - cp flatpakNeutronBuildScript.sh neutron/src/scripts/build/flatpak
-    - chmod +x neutron/src/scripts/build/flatpak
-
-    - cd neutron && python configurator.py --config-file=../config.json
-
-    # Extract firefox source
+    # Replace build scripts with our native ones
+    - chmod +x flatpak && cp flatpak neutron/src/scripts/build/linux
+    - chmod +x launch-app-flatpak && cp launch-app-flatpak neutron/src/scripts/build/launch-app-linux
+    - chmod +x package-flatpak && cp package-flatpak neutron/src/scripts/build/package-linux
+    - cp mozconfig neutron/src/mozconfig.linux
+    
+    # Configure
+    - cd neutron && python configurator.py --config-file=../resources/config.json -p linux
+    
+    # Prepare firefox source
     - cd neutron/build/ && mkdir mozilla-unified
-    - tar --strip-components=1 -xf firefox-127.0.2.source.tar.xz -C neutron/build/mozilla-unified
+    - tar --strip-components=1 -xf firefox-147.0.source.tar.xz -C neutron/build/mozilla-unified
 
+    # Build
     - cd neutron/build/ && python build.py
 
-    # Assemble what will go in /app/lib/datcord
-    - mkdir neutron/build/datcord
-    - tar --strip-components=1 -xvf neutron/build/mozilla-unified/obj-*/dist/*.tar.bz2 -C neutron/build/datcord/
-    - cp -r neutron/build/src/distribution/ neutron/build/datcord/
-    - mv neutron/build/datcord/distribution/policies-flatpak.json neutron/build/datcord/distribution/policies.json
-    - cp neutron/build/src/open-in-default-browser/open-in-default-browser neutron/build/datcord/open-in-default-browser
-    - cp neutron/build/src/launch-app.linux neutron/build/datcord/launch-datcord
-
     # Install everything
-    - chmod +x neutron/build/datcord/launch-datcord
-    - chmod +x neutron/build/datcord/open-in-default-browser
+    - chmod +x neutron/build/datcord-linux/launch-app
+    - chmod +x neutron/build/datcord-linux/open-in-default-browser
     - mkdir -p /app/lib/datcord
-    - cp -r neutron/build/datcord/* /app/lib/datcord
+    - cp -r neutron/build/datcord-linux/* /app/lib/datcord
 
-    - ln -s /app/lib/datcord/launch-datcord /app/bin/datcord
+    - ln -s /app/lib/datcord/launch-app /app/bin/datcord
 
-    - install -Dm 644 -t /app/share/applications io.github.gamingdoom.Datcord.desktop
+    - install -Dm 644 -t /app/share/applications/ io.github.gamingdoom.Datcord.desktop
     - install -Dm 644 -t /app/share/metainfo io.github.gamingdoom.Datcord.metainfo.xml
 
     # Use the icon from upstream (256 is the highest res)
@@ -164,12 +111,12 @@ modules:
   sources:
     - type: git
       url: https://github.com/gamingdoom/datcord.git
-      tag: "0.5.2"
+      tag: "0.6.1"
 
     # We extract this during the build.
     - type: file
-      url: https://ftp.mozilla.org/pub/firefox/releases/127.0.2/source/firefox-127.0.2.source.tar.xz
-      sha256: 0b7b2a8c3def52fcab13c48769645d0e963902ee916e4f3d2a0098796e73e3e8
+      url: https://ftp.mozilla.org/pub/firefox/releases/147.0/source/firefox-147.0.source.tar.xz
+      sha256: 222d8e63754f1e5b1789cb928d7f973e0168819c492bb0eb402b1d472e4fd9fe
 
     - type: file
       path: io.github.gamingdoom.Datcord.desktop
@@ -178,8 +125,14 @@ modules:
       path: io.github.gamingdoom.Datcord.metainfo.xml
 
     - type: file
-      path: config.json
+      path: flatpak
 
     - type: file
-      path: flatpakNeutronBuildScript.sh
+      path: launch-app-flatpak
+
+    - type: file
+      path: package-flatpak
+
+    - type: file
+      path: mozconfig
 

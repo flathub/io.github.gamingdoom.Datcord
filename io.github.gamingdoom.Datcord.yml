@@ -125,9 +125,6 @@ modules:
       path: io.github.gamingdoom.Datcord.metainfo.xml
 
     - type: file
-      path: config.json
-
-    - type: file
       path: flatpak
 
     - type: file

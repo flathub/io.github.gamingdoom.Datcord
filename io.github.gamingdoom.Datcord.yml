@@ -85,7 +85,7 @@ modules:
     - cp mozconfig neutron/src/mozconfig.linux
     
     # Configure
-    - cd neutron && python configurator.py --config-file=../config.json
+    - "cd neutron && python configurator.py --config-file=resources/config.json -p linux
     
     # Prepare firefox source
     - cd neutron/build/ && mkdir mozilla-unified
@@ -111,7 +111,7 @@ modules:
   sources:
     - type: git
       url: https://github.com/gamingdoom/datcord.git
-      commit: a5b5155da3084dab39741a5ae43980557ba9dd2e
+      tag: "0.6.1"
 
     # We extract this during the build.
     - type: file

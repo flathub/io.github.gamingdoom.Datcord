@@ -1,34 +1,9 @@
 #!/bin/bash
 
-# mozbuild=~/.mozbuild
-# export PATH="$PATH:$mozbuild/git-cinnabar"
-# rootDir=$PWD
-
-# if [ ! -d $mozbuild ]; then
-#   mkdir $mozbuild
-# fi
-
-# cd mozilla-unified
-
-# cp -r ../src/changed/* .
-# cp ../src/mozconfig.linux mozconfig
-
-# echo "Applying universal patches"
-# for patch in ../src/patches/*.patch; do
-#   patch -p1 < $patch
-# done
-# echo "Done applying universal patches"
-
-# ./mach configure --without-wasm-sandboxed-libraries
-# ./mach build
-# ./mach package
-
-# cd ..
-
+set -euo pipefail
 shopt -s extglob
 
 export MOZBUILD_STATE_PATH=$PWD/.mozbuild
-export PATH="$PATH:$mozbuild/git-cinnabar"
 
 cd mozilla-unified
 
@@ -48,9 +23,11 @@ export CXXFLAGS="-fno-exceptions"
 
 cd ..
 
-rm -r NEUTRON_INTERNAL_APP_NAME-linux
+if [ -d  NEUTRON_INTERNAL_APP_NAME-linux ]; then
+    rm -r NEUTRON_INTERNAL_APP_NAME-linux
+fi
 mkdir NEUTRON_INTERNAL_APP_NAME-linux
-tar --strip-components=1 -xvf  mozilla-unified/obj-*-pc-linux-gnu/dist/*.tar.@(bz2|xz) -C NEUTRON_INTERNAL_APP_NAME-linux/
+tar --strip-components=1 -xvf  mozilla-unified/obj-*-linux-gnu/dist/*.tar.@(bz2|xz) -C NEUTRON_INTERNAL_APP_NAME-linux/
 cp -r src/distribution/ NEUTRON_INTERNAL_APP_NAME-linux/
 mv NEUTRON_INTERNAL_APP_NAME-linux/distribution/policies-flatpak.json NEUTRON_INTERNAL_APP_NAME-linux/distribution/policies.json
 cp src/open-in-default-browser/open-in-default-browser NEUTRON_INTERNAL_APP_NAME-linux/open-in-default-browser

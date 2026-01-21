@@ -85,7 +85,7 @@ modules:
     - cp mozconfig neutron/src/mozconfig.linux
     
     # Configure
-    - cd neutron && python configurator.py --config-file=resources/config.json -p linux
+    - cd neutron && python configurator.py --config-file=../resources/config.json -p linux
     
     # Prepare firefox source
     - cd neutron/build/ && mkdir mozilla-unified

@@ -10,6 +10,12 @@ cd mozilla-unified
 cp -r ../src/changed/* .
 cp ../src/mozconfig.linux mozconfig
 
+echo "Applying universal patches"
+for patch in ../src/patches/*.patch; do
+    patch -p1 < $patch
+done
+echo "Done applying universal patches"
+
 export CXXFLAGS="-fno-exceptions" 
 ./mach configure --without-wasm-sandboxed-libraries
 ./mach build

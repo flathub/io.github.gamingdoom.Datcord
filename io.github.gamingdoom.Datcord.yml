@@ -111,7 +111,7 @@ modules:
   sources:
     - type: git
       url: https://github.com/gamingdoom/datcord.git
-      tag: "0.6.1"
+      tag: "0.6.2"
 
     # We extract this during the build.
     - type: file

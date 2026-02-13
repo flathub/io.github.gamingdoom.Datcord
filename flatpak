@@ -12,7 +12,7 @@ cp ../src/mozconfig.linux mozconfig
 
 echo "Applying universal patches"
 for patch in ../src/patches/*.patch; do
-  patch -p1 < $patch
+    patch -p1 < $patch
 done
 echo "Done applying universal patches"
 

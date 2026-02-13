@@ -3,4 +3,4 @@ Name=Datcord
 Exec=datcord
 Icon=io.github.gamingdoom.Datcord
 Type=Application
-Categories=Chat
+Categories=Network;InstantMessaging;Chat;
